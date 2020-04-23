@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.com.henrique.domain.exception.EntidadeEmUsoException;
+import com.com.henrique.domain.exception.EntidadeNaoEncontradaException;
 import com.com.henrique.domain.model.Cozinha;
 import com.com.henrique.domain.repository.CozinhaRepository;
 import com.com.henrique.domain.service.CadastroCozinhaService;
@@ -28,7 +30,7 @@ public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
-	
+
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
 
@@ -90,19 +92,14 @@ public class CozinhaController {
 
 		try {
 
-			if (cozinhaRepository.findById(id).isPresent()) {
+			cadastroCozinha.excluir(id);
 
-				Cozinha cozinha = cozinhaRepository.findById(id).get();
-				cozinhaRepository.delete(cozinha);
+			return ResponseEntity.noContent().build();
 
-				return ResponseEntity.noContent().build();
-
-			} else {
-				return ResponseEntity.notFound().build();
-			}
-
-		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		} catch (EntidadeEmUsoException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 
 	}
