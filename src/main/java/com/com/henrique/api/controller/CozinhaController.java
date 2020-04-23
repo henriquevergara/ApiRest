@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.henrique.domain.model.Cozinha;
 import com.com.henrique.domain.repository.CozinhaRepository;
+import com.com.henrique.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -27,6 +28,9 @@ public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CadastroCozinhaService cadastroCozinha;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }) // atributo utilizado
@@ -57,7 +61,7 @@ public class CozinhaController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void incluir(@RequestBody Cozinha cozinha) {
 
-		cozinhaRepository.save(cozinha);
+		cadastroCozinha.salvar(cozinha);
 
 	}
 
