@@ -77,7 +77,7 @@ public class CozinhaController {
 			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id"); // 3ª parâmetro serve para indicar atributos que
 																	// devem ser ignorados na copia.
 
-			return ResponseEntity.ok().body(cozinhaRepository.save(cozinhaAtual));
+			return ResponseEntity.ok().body(cadastroCozinha.salvar(cozinhaAtual));
 
 		} else {
 
