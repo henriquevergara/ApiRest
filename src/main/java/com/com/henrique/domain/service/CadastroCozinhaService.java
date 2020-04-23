@@ -20,18 +20,19 @@ public class CadastroCozinhaService {
 		return cozinhaRepository.save(cozinha);
 	}
 
-	
 	public void excluir(Long cozinhaId) {
-		
+
 		try {
-			
+
 			cozinhaRepository.deleteById(cozinhaId);
-			
+
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format("Cozinha de codigo %d nao pode ser removida, pois esta em uso.", cozinhaId));
-		}catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Nao existe um cadastro de cozinha com codigo %d.", cozinhaId));
+			throw new EntidadeEmUsoException(
+					String.format("Cozinha de codigo %d nao pode ser removida, pois esta em uso.", cozinhaId));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException(
+					String.format("Nao existe um cadastro de cozinha com codigo %d.", cozinhaId));
 		}
-		
+
 	}
 }
