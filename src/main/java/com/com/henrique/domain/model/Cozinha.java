@@ -6,27 +6,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //@JsonRootName used to indicate name to use for XML root-level wrapping
 @Entity
 public class Cozinha {
 
 	@Id
-	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	//@JsonProperty("titulo") alterar nome do atributo no JSON
-	//@JsonIgnore usado para ocultar atributo do retorno
+
+	// @JsonProperty("titulo") alterar nome do atributo no JSON
+	// @JsonIgnore usado para ocultar atributo do retorno
 	@Column(nullable = false)
 	private String nome;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 }
