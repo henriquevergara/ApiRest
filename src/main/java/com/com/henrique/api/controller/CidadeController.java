@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.com.henrique.domain.exception.EntidadeEmUsoException;
 import com.com.henrique.domain.exception.EntidadeNaoEncontradaException;
+import com.com.henrique.domain.model.Cidade;
 import com.com.henrique.domain.model.Restaurante;
-import com.com.henrique.domain.repository.RestauranteRepository;
-import com.com.henrique.domain.service.CadastroRestauranteService;
+import com.com.henrique.domain.repository.CidadeRepository;
+import com.com.henrique.domain.service.CadastrarCidadeService;
 
 @RestController
-@RequestMapping("/restaurantes")
-public class RestauranteController {
+@RequestMapping("/cidades")
+public class CidadeController {
 
 	@Autowired
-	private RestauranteRepository restauranteRepository;
+	private CidadeRepository cidadeRepository;
 
 	@Autowired
-	private CadastroRestauranteService cadastroRestaurante;
+	private CadastrarCidadeService cadastrarCidadeService;
 
 	@GetMapping
 	public ResponseEntity<?> listar() {
-
-		return ResponseEntity.ok().body(restauranteRepository.findAll());
-
+		return ResponseEntity.status(HttpStatus.OK).body(cidadeRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Restaurante> buscar(@PathVariable Long id) {
+	public ResponseEntity<?> buscar(@PathVariable Long id) {
 
-		if (restauranteRepository.findById(id).isPresent()) {
-			return ResponseEntity.ok(restauranteRepository.findById(id).get());
+		if (cidadeRepository.findById(id).isPresent()) {
+			return ResponseEntity.ok(cidadeRepository.findById(id).get());
 		} else {
 			return ResponseEntity.notFound().build();
 		}
@@ -46,22 +46,25 @@ public class RestauranteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+	public ResponseEntity<?> incluir(@RequestBody Cidade cidade) {
 
 		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(cadastroRestaurante.salvar(restaurante));
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(cadastrarCidadeService.salvar(cidade));
+
 		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
+
 	}
 
-	@PutMapping("/{restauranteId}")
-	public ResponseEntity<?> atualizar(@PathVariable("restauranteId") Long id, @RequestBody Restaurante restaurante) {
+	@PutMapping("/{cidadeId}")
+	public ResponseEntity<?> atualizar(@PathVariable("cidadeId") Long id, @RequestBody Cidade cidade) {
 
 		try {
 
-			if (restauranteRepository.findById(id).isPresent()) {
-				return ResponseEntity.status(HttpStatus.OK).body(cadastroRestaurante.atualizar(restaurante, id));
+			if (cidadeRepository.findById(id).isPresent()) {
+				return ResponseEntity.status(HttpStatus.OK).body(cadastrarCidadeService.atualizar(cidade, id));
 			}
 			return ResponseEntity.notFound().build();
 		} catch (EntidadeNaoEncontradaException e) {
@@ -72,13 +75,13 @@ public class RestauranteController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
-
 		try {
-			cadastroRestaurante.excluir(id);
+			cadastrarCidadeService.excluir(id);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+		} catch (EntidadeEmUsoException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		}
-
 	}
 }

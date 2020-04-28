@@ -48,5 +48,18 @@ public class CadastroRestauranteService {
 		return restauranteRepository.save(restauranteAtual);
 
 	}
+	
+	public void excluir (Long id) {
+		
+		if (!restauranteRepository.findById(id).isPresent()) {
+			
+			throw new EntidadeNaoEncontradaException(String.format("Restaurante com id %d nao encontrado",id));
+			
+		}
+		
+		restauranteRepository.deleteById(id);
+		
+		
+	}
 
 }
