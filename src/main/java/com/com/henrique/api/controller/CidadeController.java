@@ -20,7 +20,7 @@ import com.com.henrique.domain.repository.CidadeRepository;
 import com.com.henrique.domain.service.CadastrarCidadeService;
 
 @RestController
-@RequestMapping("/cidades")
+@RequestMapping("/cidadess")
 public class CidadeController {
 
 	@Autowired
