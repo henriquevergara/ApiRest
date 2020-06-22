@@ -23,8 +23,6 @@ import com.com.henrique.domain.service.CadastrarCidadeService;
 @RequestMapping("/cidades")
 public class CidadeController {
 
-//	revisao de codigo
-//
 	@Autowired
 	private CidadeRepository cidadeRepository;
 
@@ -74,6 +72,9 @@ public class CidadeController {
 		}
 
 	}
+
+
+
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
