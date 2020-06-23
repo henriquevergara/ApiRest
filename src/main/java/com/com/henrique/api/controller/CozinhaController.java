@@ -47,10 +47,10 @@ public class CozinhaController {
 	@GetMapping
 	public ResponseEntity<?> buscarPorNome(@RequestParam String nome) {
 
-		if (cozinhaRepository.findByNome(nome).isEmpty()){
+		if (cozinhaRepository.findByNomeContaining(nome).isEmpty()){
 			return ResponseEntity.notFound().build();
 		}else{
-			return ResponseEntity.ok(cozinhaRepository.findByNome(nome));
+			return ResponseEntity.ok(cozinhaRepository.findByNomeContaining(nome));
 		}
 	}
 
