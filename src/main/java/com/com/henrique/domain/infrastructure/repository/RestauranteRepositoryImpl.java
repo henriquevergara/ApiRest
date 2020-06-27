@@ -1,8 +1,6 @@
 package com.com.henrique.domain.infrastructure.repository;
 
 import com.com.henrique.domain.model.Restaurante;
-import lombok.var;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -12,6 +10,7 @@ import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class RestauranteRepositoryImpl implements com.com.henrique.domain.repository.RestauranteRepositoryQueries {
@@ -37,7 +36,8 @@ public class RestauranteRepositoryImpl implements com.com.henrique.domain.reposi
         StringBuilder jpql = new StringBuilder();
         jpql.append("from Restaurante where 0 = 0 ");
 
-        HashMap parametros = new HashMap<String, Object>();
+        Map<String,Object> parametros = new HashMap<>();
+
 
         if (StringUtils.hasLength(nome)) {
             jpql.append("and nome like :nome ");
