@@ -64,6 +64,10 @@ public class CidadeController {
 
 	}
 
+	@GetMapping("/merge")
+	public void testeMerge(){
+		System.out.println("Deu merge github!");
+	}
 
 	@GetMapping("/merge")
 	public void testeMerge(){
