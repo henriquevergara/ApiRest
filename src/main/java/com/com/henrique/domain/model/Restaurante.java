@@ -1,19 +1,17 @@
 package com.com.henrique.domain.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 @Entity
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Restaurante {
 
-	
+	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -28,37 +26,4 @@ public class Restaurante {
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public BigDecimal getTaxaFrete() {
-		return taxaFrete;
-	}
-
-	public void setTaxaFrete(BigDecimal taxaFrete) {
-		this.taxaFrete = taxaFrete;
-	}
-
-	public Cozinha getCozinha() {
-		return cozinha;
-	}
-
-	public void setCozinha(Cozinha cozinha) {
-		this.cozinha = cozinha;
-	}
-
-	
 }

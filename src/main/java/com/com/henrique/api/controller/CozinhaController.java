@@ -7,15 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.com.henrique.domain.exception.EntidadeEmUsoException;
 import com.com.henrique.domain.exception.EntidadeNaoEncontradaException;
@@ -35,13 +27,7 @@ public class CozinhaController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }) // atributo utilizado
-																									// para setar os
-																									// content
-																									// negotiation da
-																									// requisicao,
-																									// endpoint retorna
-																									// apenas em xml e
-																									// json.
+																							// apenas em xml e		// json.
 	public ResponseEntity<List<Cozinha>> listar() {
 		// return
 		// ResponseEntity.status(HttpStatus.OK).body(cozinhaRepository.findAll());
@@ -55,6 +41,16 @@ public class CozinhaController {
 			return ResponseEntity.ok(cozinhaRepository.findById(id).get());
 		} else {
 			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@GetMapping
+	public ResponseEntity<?> buscarPorNome(@RequestParam String nome) {
+
+		if (cozinhaRepository.findByNomeContaining(nome).isEmpty()){
+			return ResponseEntity.notFound().build();
+		}else{
+			return ResponseEntity.ok(cozinhaRepository.findByNomeContaining(nome));
 		}
 	}
 
