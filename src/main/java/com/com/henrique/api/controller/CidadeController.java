@@ -65,7 +65,10 @@ public class CidadeController {
 	}
 
 
-
+	@GetMapping("/merge")
+	public void testeMerge(){
+		System.out.println("Deu merge!!");
+	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
