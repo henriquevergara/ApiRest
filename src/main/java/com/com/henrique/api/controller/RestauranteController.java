@@ -98,7 +98,7 @@ public class RestauranteController {
 
 	@GetMapping("/por-nome")
 	public List<Restaurante> buscaNomeId(String nome, BigDecimal freteInicial, BigDecimal freteFinal){
-		return restauranteRepository.findComJPQL(nome,freteInicial,freteFinal);
+		return restauranteRepository.findCriteriaQuery(nome,freteInicial,freteFinal);
 	}
 
 	@GetMapping("/com-frete-gratis")
