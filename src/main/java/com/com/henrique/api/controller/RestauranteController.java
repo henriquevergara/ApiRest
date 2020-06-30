@@ -1,6 +1,9 @@
 package com.com.henrique.api.controller;
 
+import com.com.henrique.domain.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.com.henrique.domain.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,6 +99,15 @@ public class RestauranteController {
 	@GetMapping("/por-nome")
 	public List<Restaurante> buscaNomeId(String nome, BigDecimal freteInicial, BigDecimal freteFinal){
 		return restauranteRepository.findComJPQL(nome,freteInicial,freteFinal);
+	}
+
+	@GetMapping("/com-frete-gratis")
+	public List<Restaurante> restauranteComFreteGratis(String nome){
+
+		var comFreteGratis = new RestauranteComFreteGratisSpec();
+		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
+
+		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
 	}
 
 	private void merge(@RequestBody Map<String, Object> campos, Restaurante restauranteDestino) {
