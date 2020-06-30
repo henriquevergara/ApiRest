@@ -1,19 +1,17 @@
 package com.com.henrique.api.controller;
 
-import com.com.henrique.domain.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
-import com.com.henrique.domain.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
+import com.com.henrique.domain.exception.EntidadeNaoEncontradaException;
+import com.com.henrique.domain.infrastructure.repository.spec.RestauranteSpecs;
+import com.com.henrique.domain.model.Restaurante;
+import com.com.henrique.domain.repository.RestauranteRepository;
+import com.com.henrique.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import com.com.henrique.domain.exception.EntidadeNaoEncontradaException;
-import com.com.henrique.domain.model.Restaurante;
-import com.com.henrique.domain.repository.RestauranteRepository;
-import com.com.henrique.domain.service.CadastroRestauranteService;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -103,11 +101,7 @@ public class RestauranteController {
 
 	@GetMapping("/com-frete-gratis")
 	public List<Restaurante> restauranteComFreteGratis(String nome){
-
-		var comFreteGratis = new RestauranteComFreteGratisSpec();
-		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
-
-		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+		return restauranteRepository.findComFreteGratis(nome);
 	}
 
 	private void merge(@RequestBody Map<String, Object> campos, Restaurante restauranteDestino) {

@@ -1,6 +1,10 @@
 package com.com.henrique.domain.infrastructure.repository;
 
+import com.com.henrique.domain.infrastructure.repository.spec.RestauranteSpecs;
 import com.com.henrique.domain.model.Restaurante;
+import com.com.henrique.domain.repository.RestauranteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +26,10 @@ public class RestauranteRepositoryImpl implements com.com.henrique.domain.reposi
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    @Lazy
+    private RestauranteRepository restauranteRepository;
 
 //    @Override
 //    public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
@@ -92,6 +100,11 @@ public class RestauranteRepositoryImpl implements com.com.henrique.domain.reposi
 
         return query.getResultList();
 
+    }
+
+    @Override
+    public List<Restaurante> findComFreteGratis(String nome) {
+        return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis().and(RestauranteSpecs.comNomeSemelhante(nome)));
     }
 
 }
