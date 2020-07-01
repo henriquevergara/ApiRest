@@ -44,7 +44,7 @@ public class CadastroRestauranteService {
 		}
 
 		Restaurante restauranteAtual = restauranteRepository.findById(id).get();
-		BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+		BeanUtils.copyProperties(restaurante, restauranteAtual, "id","formasPagamentos","endereco", "dataCadastro");
 		return restauranteRepository.save(restauranteAtual);
 
 	}
